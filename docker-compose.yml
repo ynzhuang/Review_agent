@@ -1,0 +1,50 @@
+# Single-service deployment of the chart-review platform.
+#
+#   cp .env.example .env    # set the model backend credentials
+#   docker compose up --build
+#   open http://localhost:3002
+#
+# The image bakes its own app wiring (paths, provider, transport) as ENV —
+# see the Dockerfile. This file supplies only the things that differ per
+# deployment: the port, the secrets, and where mutable state lives.
+
+services:
+  chart-review:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chart-review:local
+    container_name: chart-review
+    restart: unless-stopped
+
+    ports:
+      - "${PORT:-3002}:3002"
+
+    # Model-backend credentials and any per-deployment overrides.
+    # Never bake these into the image — .env is gitignored and excluded
+    # from the build context by .dockerignore.
+    #
+    # Optional so the stack still comes up without one: the server boots
+    # and serves the UI with no backend configured, and only an agent run
+    # needs credentials. (`required:` needs Compose v2.24+.)
+    env_file:
+      - path: .env
+        required: false
+
+    # All mutable state — reviews, runs, exports, cohorts, jobs — is
+    # redirected to /data by the image, so nothing PHI-bearing is ever
+    # written into an image layer. Bind-mount it so it survives
+    # `docker compose down` and can sit on an encrypted volume.
+    volumes:
+      - ./data:/data
+      # Patient corpus, mounted read-only. Point the left side at your own
+      # corpus to run against real charts; the default is the synthetic
+      # fixture set that ships with the repo.
+      - ${CORPUS_DIR:-./corpus}:/data/corpus:ro
+
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3002/api/v2/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 60s

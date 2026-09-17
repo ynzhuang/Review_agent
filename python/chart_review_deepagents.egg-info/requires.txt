@@ -1,0 +1,8 @@
+deepagents
+langchain-openai
+langchain-mcp-adapters
+pandas
+openpyxl
+
+[dev]
+pytest>=8

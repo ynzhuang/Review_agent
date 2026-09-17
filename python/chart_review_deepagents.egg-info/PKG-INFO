@@ -1,0 +1,11 @@
+Metadata-Version: 2.4
+Name: chart-review-deepagents
+Version: 0.1.0
+Requires-Python: >=3.11
+Requires-Dist: deepagents
+Requires-Dist: langchain-openai
+Requires-Dist: langchain-mcp-adapters
+Requires-Dist: pandas
+Requires-Dist: openpyxl
+Provides-Extra: dev
+Requires-Dist: pytest>=8; extra == "dev"
