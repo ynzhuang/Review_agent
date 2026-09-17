@@ -8,6 +8,6 @@
   "exports": { ".": { "types": "./src/index.ts", "default": "./src/index.ts" } },
   "dependencies": {
     "@chart-review/rubric": "*",
-    "yaml": "^2.6.0"
+    "yaml": "^2.9.1"
   }
 }

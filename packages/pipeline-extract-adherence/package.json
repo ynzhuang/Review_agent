@@ -16,6 +16,6 @@
     "@chart-review/platform-types": "*",
     "@chart-review/rubric": "*",
     "@chart-review/rule-engine": "*",
-    "yaml": "^2.6.0"
+    "yaml": "^2.9.1"
   }
 }

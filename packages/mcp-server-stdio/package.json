@@ -16,7 +16,7 @@
     "@chart-review/mcp-core": "*",
     "@chart-review/mcp-core-adherence": "*",
     "@chart-review/tasks": "*",
-    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
     "zod": "^3.23.0"
   }
 }
